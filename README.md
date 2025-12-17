@@ -40,7 +40,7 @@ _\*Tudkabir works on iOS, Android, Web, and Windows._
 To run all unit and widget tests use the following command:
 
 ```sh
-$ very_good test --coverage --test-randomize-ordering-seed random
+very_good test --coverage --test-randomize-ordering-seed random
 ```
 
 To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
@@ -73,7 +73,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 }
 ```
 
-2. Then add a new key/value and description
+2.Then add a new key/value and description
 
 ```arb
 {
@@ -89,7 +89,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 }
 ```
 
-3. Use the new string
+3.Use the new string
 
 ```dart
 import 'package:tudkabir/l10n/l10n.dart';
@@ -109,10 +109,10 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
     ...
 
     <key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>es</string>
-	</array>
+ <array>
+  <string>en</string>
+  <string>es</string>
+ </array>
 
     ...
 ```
@@ -121,14 +121,14 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 
 1. For each supported locale, add a new ARB file in `lib/l10n/arb`.
 
-```
+```dart
 ├── l10n
 │   ├── arb
 │   │   ├── app_en.arb
 │   │   └── app_es.arb
 ```
 
-2. Add the translated strings to each `.arb` file:
+2.Add the translated strings to each `.arb` file:
 
 `app_en.arb`
 

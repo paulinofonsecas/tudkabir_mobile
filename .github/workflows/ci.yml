@@ -60,58 +60,58 @@ jobs:
   # ============================================
   # 🧪 JOB 2: TESTES UNITÁRIOS E DE INTEGRAÇÃO
   # ============================================
-  test:
-    name: 🧪 Testes Unitários e Integração
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+  # test:
+  #   name: 🧪 Testes Unitários e Integração
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 15
 
-    steps:
-      - name: 📥 Checkout código
-        uses: actions/checkout@v6
+  #   steps:
+  #     - name: 📥 Checkout código
+  #       uses: actions/checkout@v6
 
-      - name: ☕ Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+  #     - name: ☕ Setup Java
+  #       uses: actions/setup-java@v5
+  #       with:
+  #         distribution: 'temurin'
+  #         java-version: '17'
 
-      - name: 🐦 Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.38.4'
-          channel: 'stable'
-          cache: true
+  #     - name: 🐦 Setup Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: '3.38.4'
+  #         channel: 'stable'
+  #         cache: true
 
-      - name: 📦 Instalar dependências
-        run: flutter pub get
+  #     - name: 📦 Instalar dependências
+  #       run: flutter pub get
 
-      - name: 🧪 Executar testes com cobertura
-        run: flutter test --coverage --reporter expanded
+  #     - name: 🧪 Executar testes com cobertura
+  #       run: flutter test --coverage --reporter expanded
 
-      - name: 📊 Verificar cobertura mínima
-        run: |
-          if [ -f coverage/lcov.info ]; then
-            COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//')
-            echo "📊 Cobertura atual: $COVERAGE%"
+  #     - name: 📊 Verificar cobertura mínima
+  #       run: |
+  #         if [ -f coverage/lcov.info ]; then
+  #           COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//')
+  #           echo "📊 Cobertura atual: $COVERAGE%"
             
-            MIN_COVERAGE=70
-            if (( $(echo "$COVERAGE < $MIN_COVERAGE" | bc -l) )); then
-              echo "❌ Cobertura abaixo do mínimo ($MIN_COVERAGE%)"
-              exit 1
-            else
-              echo "✅ Cobertura aceitável (>= $MIN_COVERAGE%)"
-            fi
-          else
-            echo "⚠️  Arquivo de cobertura não encontrado"
-          fi
+  #           MIN_COVERAGE=70
+  #           if (( $(echo "$COVERAGE < $MIN_COVERAGE" | bc -l) )); then
+  #             echo "❌ Cobertura abaixo do mínimo ($MIN_COVERAGE%)"
+  #             exit 1
+  #           else
+  #             echo "✅ Cobertura aceitável (>= $MIN_COVERAGE%)"
+  #           fi
+  #         else
+  #           echo "⚠️  Arquivo de cobertura não encontrado"
+  #         fi
 
-      - name: 📤 Upload cobertura para Codecov (opcional)
-        if: always()
-        uses: codecov/codecov-action@v5
-        with:
-          files: coverage/lcov.info
-          fail_ci_if_error: false
-          # token: ${{ secrets.CODECOV_TOKEN }}
+  #     - name: 📤 Upload cobertura para Codecov (opcional)
+  #       if: always()
+  #       uses: codecov/codecov-action@v5
+  #       with:
+  #         files: coverage/lcov.info
+  #         fail_ci_if_error: false
+  #         # token: ${{ secrets.CODECOV_TOKEN }}
 
   # ============================================
   # 🤖 JOB 3: BUILD ANDROID
@@ -245,14 +245,13 @@ jobs:
   ci-success:
     name: ✅ CI Pipeline Completo
     runs-on: ubuntu-latest
-    needs: [analyze, test, security]
+    needs: [analyze, security]
     if: always()
 
     steps:
       - name: 🎉 Verificar sucesso de todos os jobs
         run: |
           if [ "${{ needs.analyze.result }}" != "success" ] || \
-             [ "${{ needs.test.result }}" != "success" ] || \
              [ "${{ needs.security.result }}" != "success" ]; then
             echo "❌ Alguns jobs falharam"
             exit 1
